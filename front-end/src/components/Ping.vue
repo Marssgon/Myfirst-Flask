@@ -1,18 +1,10 @@
 <template>
-  <div>
-    <p>{{ msg }}</p>
-  </div>
-</template>
-
-<template>
   <div class="container">
     <button type="button" class="btn btn-primary">{{ msg }}</button>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'Ping',
   data() {
@@ -22,14 +14,15 @@ export default {
   },
   methods: {
     getMessage () {
-      const path = 'http://localhost:5000/api/ping'
-      axios.get(path)
+      const path = '/ping'
+      this.$axios.get(path)
         .then((res) => {
-          this.msg = res.data;
+          this.msg = res.data
+          this.$toasted.info('Success connect to Flask API', { icon: 'fingerprint' })
         })
         .catch((error) => {
           // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     }
   },
