@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import store from '../../../store'
+import store from '../../store'
+
 export default {
   name: 'Profile',  //this is the name of the component
   data () {
@@ -64,9 +65,10 @@ export default {
         .catch((error) => {
           // handle error
           console.log(error.response.data)
+          this.$toasted.error(error.response.data.message, { icon: 'fingerprint' })
         })
     },
-
+    
   },
   created () {
     const user_id = this.sharedState.user_id

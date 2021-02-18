@@ -4,7 +4,7 @@
       <!-- Panel Header -->
       <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
         <h3 class="h6 mb-0">
-          <i class="icon-people g-pos-rel g-top-1 g-mr-5"></i> Followeds of {{ user.name || user.username }} <small v-if="followeds">(共 {{ followeds._meta.total_items }} 个, {{ followeds._meta.total_pages }} 页)</small>
+          <i class="icon-people g-pos-rel g-top-1 g-mr-5"></i> Followers of {{ user.name || user.username }} <small v-if="followers">(共 {{ followers._meta.total_items }} 个, {{ followers._meta.total_pages }} 页)</small>
         </h3>
         <div class="dropdown g-mb-10 g-mb-0--md">
           <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -20,37 +20,37 @@
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 10 }}" class="dropdown-item g-px-10">
               <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 10 个
             </router-link>
-
+            
             <div class="dropdown-divider"></div>
 
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 20 }}" class="dropdown-item g-px-10">
               <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 20 个
             </router-link>
-
+            
           </div>
         </div>
       </div>
       <!-- End Panel Header -->
 
       <!-- Panel Body -->
-      <div v-if="followeds" class="card-block g-pa-0" >
+      <div v-if="followers" class="card-block g-pa-0" >
 
-        <member v-for="(followed, index) in followeds.items" v-bind:key="index"
-          v-bind:member="followed"
-          v-on:follow-user="onFollowUser(followed)"
-          v-on:unfollow-user="onUnfollowUser(followed)">
+        <member v-for="(follower, index) in followers.items" v-bind:key="index"
+          v-bind:member="follower"
+          v-on:follow-user="onFollowUser(follower)"
+          v-on:unfollow-user="onUnfollowUser(follower)">
         </member>
 
       </div>
       <!-- End Panel Body -->
     </div>
-
+  
     <!-- Pagination #04 -->
-    <div v-if="followeds">
+    <div v-if="followers">
       <pagination
-        v-bind:cur-page="followeds._meta.page"
-        v-bind:per-page="followeds._meta.per_page"
-        v-bind:total-pages="followeds._meta.total_pages">
+        v-bind:cur-page="followers._meta.page"
+        v-bind:per-page="followers._meta.per_page"
+        v-bind:total-pages="followers._meta.total_pages">
       </pagination>
     </div>
     <!-- End Pagination #04 -->
@@ -60,8 +60,9 @@
 <script>
 import Member from '../Base/Member'
 import Pagination from '../Base/Pagination'
+
 export default {
-  name: 'Following',  //this is the name of the component
+  name: 'Followers',  //this is the name of the component
   components: {
     Member,
     Pagination
@@ -69,7 +70,7 @@ export default {
   data () {
     return {
       user: '',
-      followeds: ''
+      followers: ''
     }
   },
   methods: {
@@ -85,45 +86,48 @@ export default {
           console.error(error)
         })
     },
-    getUserFolloweds (id) {
+    getUserFollowers (id) {
       let page = 1
       let per_page = 5
       if (typeof this.$route.query.page != 'undefined') {
         page = this.$route.query.page
       }
+
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }
-
-      const path = `/api/users/${id}/followeds/?page=${page}&per_page=${per_page}`
+      
+      const path = `/api/users/${id}/followers/?page=${page}&per_page=${per_page}`
       this.$axios.get(path)
         .then((response) => {
           // handle success
-          this.followeds = response.data
+          this.followers = response.data
         })
         .catch((error) => {
           // handle error
           console.error(error)
         })
     },
-    onFollowUser (followed) {
-      const path = `/api/follow/${followed.id}`
+    onFollowUser (follower) {
+      const path = `/api/follow/${follower.id}`
       this.$axios.get(path)
         .then((response) => {
           // handle success
-          this.getUserFolloweds(this.$route.params.id)
+          this.$toasted.success(response.data.message, { icon: 'fingerprint' })
+          this.getUserFollowers(this.$route.params.id)
         })
         .catch((error) => {
           // handle error
           console.error(error)
         })
     },
-    onUnfollowUser (followed) {
-      const path = `/api/unfollow/${followed.id}`
+    onUnfollowUser (follower) {
+      const path = `/api/unfollow/${follower.id}`
       this.$axios.get(path)
         .then((response) => {
           // handle success
-          this.getUserFolloweds(this.$route.params.id)
+          this.$toasted.success(response.data.message, { icon: 'fingerprint' })
+          this.getUserFollowers(this.$route.params.id)
         })
         .catch((error) => {
           // handle error
@@ -134,13 +138,13 @@ export default {
   created () {
     const user_id = this.$route.params.id
     this.getUser(user_id)
-    this.getUserFolloweds(user_id)
+    this.getUserFollowers(user_id)
   },
   // 进入子路由后重新加载数据
   beforeRouteUpdate (to, from, next) {
     next()
     this.getUser(to.params.id)
-    this.getUserFolloweds(to.params.id)
+    this.getUserFollowers(to.params.id)
   }
 }
 </script>

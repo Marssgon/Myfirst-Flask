@@ -56,7 +56,7 @@
       <div class="col-lg-9 g-mb-50">
         <!-- Products Block -->
         <div class="rounded g-brd-around g-brd-gray-light-v4 g-overflow-x-scroll g-overflow-x-visible--lg g-pa-30">
-
+          
           <router-view></router-view>
 
         </div>
@@ -68,7 +68,8 @@
 </template>
 
 <script>
-import store from '../../../store'
+import store from '../../store'
+
 export default {
   name: 'Settings',  //this is the name of the component
   data () {
