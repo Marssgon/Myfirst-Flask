@@ -5,7 +5,7 @@
       <!-- Panel Header -->
       <div class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
         <h3 class="h6 mb-0">
-          <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> Your Comments <small v-if="comments">(共 {{ comments._meta.total_items }} 条, {{ comments._meta.total_pages }} 页)</small>
+          <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> User Comments <small v-if="comments">(共 {{ comments._meta.total_items }} 条, {{ comments._meta.total_pages }} 页)</small>
         </h3>
         <div class="dropdown g-mb-10 g-mb-0--md">
           <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,13 +21,13 @@
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 10 }}" class="dropdown-item g-px-10">
               <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 10 条
             </router-link>
-            
+
             <div class="dropdown-divider"></div>
-            
+
             <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 20 }}" class="dropdown-item g-px-10">
               <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 20 条
             </router-link>
-            
+
           </div>
         </div>
       </div>
@@ -35,13 +35,18 @@
 
       <!-- Panel Body -->
       <div v-if="comments" class="card-block g-pa-0" >
-        
+
         <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20"
           v-for="(comment, index) in comments.items" v-bind:key="index">
-  
+
+          <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">
+            <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
+          </router-link>
           <div class="media-body">
+
+
             <div class="g-mb-15">
-              <h5 class="h5 g-color-gray-dark-v1 g-font-size-16 mb-0">你评论了文章<router-link v-bind:to="{ name: 'PostDetail', params: { id: comment.post.id } }" class="g-text-underline--none--hover"><span class="h6">《{{ comment.post.title }}》</span></router-link></h5>
+              <h5 class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }" class="comment-author g-text-underline--none--hover">{{ comment.author.name || comment.author.username }}</router-link> <span class="h6"> 你评论了文章<router-link v-bind:to="{ name: 'PostDetail', params: { id: comment.post.id } }" class="g-text-underline--none--hover">《{{ comment.post.title }}》</router-link></span></h5>
               <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
             </div>
 
@@ -77,11 +82,11 @@
             </ul>
           </div>
         </div>
-      
+
       </div>
       <!-- End Panel Body -->
     </div>
-  
+
     <!-- Pagination #04 -->
     <div v-if="comments && comments._meta.total_pages > 1">
       <pagination
@@ -99,8 +104,6 @@ import store from '../../store'
 // 导入 vue-markdown 组件解析 markdown 原文为　HTML
 import VueMarkdown from 'vue-markdown'
 import Pagination from '../Base/Pagination'
-
-
 export default {
   name: 'CommentsResource',  // this is the name of the component
   components: {
@@ -120,7 +123,6 @@ export default {
       if (typeof this.$route.query.page != 'undefined') {
         page = this.$route.query.page
       }
-
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }

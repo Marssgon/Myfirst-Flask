@@ -131,8 +131,6 @@ import store from '../../store'
 import '../../assets/bootstrap-markdown/js/bootstrap-markdown.js'
 import '../../assets/bootstrap-markdown/js/bootstrap-markdown.zh.js'
 import '../../assets/bootstrap-markdown/js/marked.js'
-
-
 export default {
   name: 'User',  //this is the name of the component
   data () {
@@ -146,7 +144,7 @@ export default {
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: null,
         bodyError: null
-      }, 
+      },
       sendMessageForm: {
         body: '',
         errors: 0,  // 发送站内消息时，表单验证是否有错误
@@ -256,7 +254,6 @@ export default {
       // 每次提交前先移除错误，不然错误就会累加
       $('#sendMessageForm .form-control-feedback').remove()
       $('#sendMessageForm .form-group.u-has-error-v1').removeClass('u-has-error-v1')
-
       if (!this.sendMessageForm.body) {
         this.sendMessageForm.errors++
         this.sendMessageForm.bodyError = 'Body is required.'
@@ -267,15 +264,12 @@ export default {
       } else {
         this.sendMessageForm.bodyError = null
       }
-
       if (this.sendMessageForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
       }
-
       // 先隐藏 Modal
       $('#sendMessageModal').modal('hide')
-
       const payload = {
         recipient_id: this.$route.params.id,
         body: this.sendMessageForm.body
@@ -303,14 +297,12 @@ export default {
     },
     onSubmitAddPost (e) {
       this.postForm.errors = 0  // 重置
-
       if (!this.postForm.title) {
         this.postForm.errors++
         this.postForm.titleError = 'Title is required.'
       } else {
         this.postForm.titleError = null
       }
-
       if (!this.postForm.body) {
         this.postForm.errors++
         this.postForm.bodyError = 'Body is required.'
@@ -320,12 +312,10 @@ export default {
         this.postForm.bodyError = null
         $('.md-editor').closest('.form-group').removeClass('u-has-error-v1')
       }
-
       if (this.postForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
       }
-
       const path = '/api/posts/'
       const payload = {
         title: this.postForm.title,
@@ -339,8 +329,8 @@ export default {
           this.postForm.title = '',
           this.postForm.summary = '',
           this.postForm.body = ''
-          // 必须加个动态参数，不然路由没变化的话，UserPostsList 组件不会刷新重新加载博客列表
-          this.$router.push({ name: 'UserPostsList', query: { id: response.data.id } })
+          // 必须加个动态参数，不然路由没变化的话，UserPosts 组件不会刷新重新加载博客列表
+          this.$router.push({ name: 'UserPosts', query: { pid: response.data.id } })
         })
         .catch((error) => {
           // handle error

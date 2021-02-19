@@ -50,10 +50,11 @@
         <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20"
           v-for="(comment, index) in comments.items" v-bind:key="index">
           <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">  
-            <span class="d-inline-block g-pos-rel">
-              <span class="u-badge-v2--sm u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
+            <span v-if="comment.is_new" class="d-inline-block g-pos-rel">
+              <span class="u-badge-v2--xs u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
               <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
             </span>
+            <img v-else class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
           </router-link>
           <div class="media-body">
             <div class="g-mb-15">
@@ -113,11 +114,11 @@
             </ul>
           </div>
         </div>
-      
+
       </div>
       <!-- End Panel Body -->
     </div>
-  
+
     <!-- Pagination #04 -->
     <div v-if="comments && comments._meta.total_pages > 1">
       <pagination
@@ -134,13 +135,11 @@
 import store from '../../store'
 // 导入 vue-markdown 组件解析 markdown 原文为　HTML
 import VueMarkdown from 'vue-markdown'
-import Comment from '../Base/Comment'
 import Pagination from '../Base/Pagination'
 // bootstrap-markdown 编辑器依赖的 JS 文件，初始化编辑器在组件的 created() 方法中，同时它需要 JQuery 支持哦
 import '../../assets/bootstrap-markdown/js/bootstrap-markdown.js'
 import '../../assets/bootstrap-markdown/js/bootstrap-markdown.zh.js'
 import '../../assets/bootstrap-markdown/js/marked.js'
-
 export default {
   name: 'RecivedComments',  // this is the name of the component
   components: {
@@ -169,11 +168,10 @@ export default {
       if (typeof this.$route.query.page != 'undefined') {
         page = this.$route.query.page
       }
-
       if (typeof this.$route.query.per_page != 'undefined') {
         per_page = this.$route.query.per_page
       }
-      
+
       const path = `/api/users/${id}/recived-comments/?page=${page}&per_page=${per_page}`
       this.$axios.get(path)
         .then((response) => {
@@ -193,7 +191,6 @@ export default {
     },
     onSubmitReply () {
       this.replyCommentForm.errors = 0  // 重置
-
       if (!this.replyCommentForm.body) {
         this.replyCommentForm.errors++
         this.replyCommentForm.bodyError = 'Body is required.'
@@ -203,7 +200,6 @@ export default {
         this.replyCommentForm.bodyError = null
         $('#replyCommentForm .md-editor').closest('.form-group').removeClass('u-has-error-v1')
       }
-
       if (this.replyCommentForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false

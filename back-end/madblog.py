@@ -1,18 +1,20 @@
-from app import create_app
-from app.extensions import db
-from app.models import User, Post
-from config import Config
 import click
 import os
 import sys
+from app import create_app
+from app.extensions import db
+from app.models import User, Post, Comment, Notification
+from config import Config
 
 app = create_app(Config)
+
 # 创建 coverage 实例
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
     COV = coverage.coverage(branch=True, include='app/*')
     COV.start()
+
 
 @app.route('/')
 def hello_world():
@@ -21,7 +23,9 @@ def hello_world():
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': User, 'Post': Post}
+    return {'db': db, 'User': User, 'Post': Post, 'Comment': Comment,
+            'Notification': Notification}
+
 
 @app.cli.command()
 @click.option('--coverage/--no-coverage', default=False, help='Run tests under code coverage.')
