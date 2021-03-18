@@ -51,6 +51,13 @@ comments_likes = db.Table(
     db.Column('timestamp', db.DateTime, default=datetime.utcnow)
 )
 
+# 黑名单(user_id 屏蔽 block_id)
+blacklist = db.Table(
+    'blacklist',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('block_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('timestamp', db.DateTime, default=datetime.utcnow)
+)
 
 class User(PaginatedAPIMixin, db.Model):
     # 设置数据库表名，Post模型中的外键 user_id 会引用 users.id
@@ -101,6 +108,14 @@ class User(PaginatedAPIMixin, db.Model):
     # 用户最后一次查看私信的时间
     last_messages_read_time = db.Column(db.DateTime)
 
+    # harassers 骚扰者(被拉黑的人)
+    # sufferers 受害者
+    harassers = db.relationship(
+        'User', secondary=blacklist,
+        primaryjoin=(blacklist.c.user_id == id),
+        secondaryjoin=(blacklist.c.block_id == id),
+        backref=db.backref('sufferers', lazy='dynamic'), lazy='dynamic')
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -113,7 +128,7 @@ class User(PaginatedAPIMixin, db.Model):
     def avatar(self, size):
         '''头像'''
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+        return 'https://gravatar.zeruns.tech/avatar/{}?d=identicon&s={}'.format(digest, size)
 
     def to_dict(self, include_email=False):
         data = {
@@ -271,6 +286,21 @@ class User(PaginatedAPIMixin, db.Model):
         last_read_time = self.last_messages_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
+    ##黑名单
+    def is_blocking(self, user):
+        '''判断当前用户是否已经拉黑了 user 这个用户对象，如果拉黑了，下面表达式左边是1，否则是0'''
+        return self.harassers.filter(
+            blacklist.c.block_id == user.id).count() > 0
+
+    def block(self, user):
+        '''当前用户开始拉黑 user 这个用户对象'''
+        if not self.is_blocking(user):
+            self.harassers.append(user)
+
+    def unblock(self, user):
+        '''当前用户取消拉黑 user 这个用户对象'''
+        if self.is_blocking(user):
+            self.harassers.remove(user)
 
 class Post(PaginatedAPIMixin, db.Model):
     __tablename__ = 'posts'
