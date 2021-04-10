@@ -6,7 +6,8 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request, error_response
 from app.extensions import db
-from app.models import comments_likes, User, Post, Comment, Notification,Message
+from app.models import comments_likes, posts_likes, User, Post, Comment, Notification, Message
+from app.utils.email import send_email
 
 
 @bp.route('/users/', methods=['POST'])
@@ -36,6 +37,39 @@ def create_user():
     user.from_dict(data, new_user=True)
     db.session.add(user)
     db.session.commit()
+
+    # 发送确认账户的邮件
+    token = user.generate_confirm_jwt()
+    if not data.get('confirm_email_base_url'):
+        confirm_url = 'http://127.0.0.1:5000/api/confirm/' + token
+    else:
+        confirm_url = data.get('confirm_email_base_url') + token
+
+    text_body = '''
+    亲爱的 {},
+    欢迎来到 MarsBlog!
+    请点击此链接来确认您的账户: {}
+    真诚的,Mars
+    注意: 我们不会泄露您的邮箱地址:).
+    '''.format(user.username, confirm_url)
+
+    html_body = '''
+    <p>亲爱的 {0},</p>
+    <p>欢迎来到<b>MarsBlog</b>!</p>
+    <p>请点击此链接来确认您的账户 <a href="{1}">点击此处</a>.</p>
+    <p>您还可以将下面的链接复制到您的浏览器中</p>
+    <p><b>{1}</b></p>
+    <p>真诚的，</p>
+    <p>Mars</p>
+    <p><small>注意: 我们不会泄露您的邮箱地址:)</small></p>
+    '''.format(user.username, confirm_url)
+
+    send_email('[MarsBlog] 请确认您的账户！',
+               sender=current_app.config['MAIL_SENDER'],
+               recipients=[user.email],
+               text_body=text_body,
+               html_body=html_body)
+
     response = jsonify(user.to_dict())
     response.status_code = 201
     # HTTP协议要求201响应包含一个值为新资源URL的Location头部
@@ -112,6 +146,21 @@ def delete_user(id):
     return '', 204
 
 
+@bp.route('/users/<int:id>/notifications/', methods=['GET'])
+@token_auth.login_required
+def get_user_notifications(id):
+    '''返回该用户的新通知'''
+    user = User.query.get_or_404(id)
+    if g.current_user != user:
+        return error_response(403)
+    # 只返回上次看到的通知以来发生的新通知
+    # 比如用户在 10:00:00 请求一次该API，在 10:00:10 再次请求该API只会返回 10:00:00 之后产生的新通知
+    since = request.args.get('since', 0.0, type=float)
+    notifications = user.notifications.filter(
+        Notification.timestamp > since).order_by(Notification.timestamp.asc())
+    return jsonify([n.to_dict() for n in notifications])
+
+
 ###
 # 关注 / 取消关注
 ###
@@ -159,6 +208,7 @@ def unfollow(id):
 @bp.route('/users/<int:id>/followeds/', methods=['GET'])
 @token_auth.login_required
 def get_followeds(id):
+    '''返回用户已关注的人的列表'''
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     per_page = min(
@@ -184,6 +234,7 @@ def get_followeds(id):
 @bp.route('/users/<int:id>/followers/', methods=['GET'])
 @token_auth.login_required
 def get_followers(id):
+    '''返回用户的粉丝列表'''
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     per_page = min(
@@ -208,18 +259,10 @@ def get_followers(id):
     for item in data['items']:
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
-    # 需要考虑分页的问题，比如新粉丝有25个，默认分页是每页10个，
-    # 如果用户请求第一页时就更新 last_follows_read_time，那么后15个就被认为不是新粉丝了，这是不对的
-    if data['_meta']['page'] * data['_meta']['per_page'] >= user.new_follows():
-        # 更新 last_follows_read_time 属性值
-        user.last_follows_read_time = datetime.utcnow()
-        # 将新粉丝通知的计数归零
-        user.add_notification('unread_follows_count', 0)
-    else:
-        # 用户剩余未查看的新粉丝数
-        n = user.new_follows() - data['_meta']['page'] * data['_meta']['per_page']
-        # 将新粉丝通知的计数更新为未读数
-        user.add_notification('unread_follows_count', n)
+    # 更新 last_follows_read_time 属性值
+    user.last_follows_read_time = datetime.utcnow()
+    # 将新粉丝通知的计数归零
+    user.add_notification('unread_follows_count', 0)
     db.session.commit()
     return jsonify(data)
 
@@ -242,6 +285,21 @@ def get_user_posts(id):
     return jsonify(data)
 
 
+@bp.route('/users/<int:id>/liked-posts/', methods=['GET'])
+@token_auth.login_required
+def get_user_liked_posts(id):
+    '''返回该用户喜欢别人的文章列表'''
+    user = User.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    data = Post.to_collection_dict(
+        user.liked_posts.order_by(Post.timestamp.desc()), page, per_page,
+        'api.get_user_liked_posts', id=id)
+    return jsonify(data)
+
+
 @bp.route('/users/<int:id>/followeds-posts/', methods=['GET'])
 @token_auth.login_required
 def get_user_followeds_posts(id):
@@ -261,18 +319,10 @@ def get_user_followeds_posts(id):
     for item in data['items']:
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
-    # 需要考虑分页的问题，比如新文章有25篇，默认分页是每页10篇，
-    # 如果用户请求第一页时就更新 last_followeds_posts_read_time，那么后15篇就被认为不是新文章了，这是不对的
-    if data['_meta']['page'] * data['_meta']['per_page'] >= user.new_followeds_posts():
-        # 更新 last_followeds_posts_read_time 属性值
-        user.last_followeds_posts_read_time = datetime.utcnow()
-        # 将新文章通知的计数归零
-        user.add_notification('unread_followeds_posts_count', 0)
-    else:
-        # 用户剩余未查看的新文章数
-        n = user.new_followeds_posts() - data['_meta']['page'] * data['_meta']['per_page']
-        # 将新文章通知的计数更新为未读数
-        user.add_notification('unread_followeds_posts_count', n)
+    # 更新 last_followeds_posts_read_time 属性值
+    user.last_followeds_posts_read_time = datetime.utcnow()
+    # 将新文章通知的计数归零
+    user.add_notification('unread_followeds_posts_count', 0)
     db.session.commit()
     return jsonify(data)
 
@@ -306,37 +356,37 @@ def get_user_recived_comments(id):
         request.args.get(
             'per_page', current_app.config['COMMENTS_PER_PAGE'], type=int), 100)
     # 用户发布的所有文章ID集合
-    user_posts_ids = [post.id for post in g.current_user.posts.all()]
-    # 评论的 post_id 在 user_posts_ids 集合中，且评论的 author 不是当前用户（即文章的作者）
-    data = Comment.to_collection_dict(
-        Comment.query.filter(Comment.post_id.in_(user_posts_ids), Comment.author != g.current_user)
-        .order_by(Comment.mark_read, Comment.timestamp.desc()),
-        page, per_page, 'api.get_user_recived_comments', id=id)
+    user_posts_ids = [post.id for post in user.posts.all()]
+    # 用户文章下面的新评论, 即评论的 post_id 在 user_posts_ids 集合中，且评论的 author 不是自己(文章的作者)
+    q1 = Comment.query.filter(Comment.post_id.in_(user_posts_ids), Comment.author != user)
+    # 用户发表的评论被人回复了
+    descendants = set()
+    for c in user.comments:
+        descendants = descendants | c.get_descendants()
+    descendants = descendants - set(user.comments.all())  # 除去自己在底下回复的
+    descendants_ids = [c.id for c in descendants]
+    q2 = Comment.query.filter(Comment.id.in_(descendants_ids))
+    # 按时间倒序排列构成用户收到的所有评论
+    recived_comments = q1.union(q2).order_by(Comment.mark_read, Comment.timestamp.desc())
+    # 分页后的 JSON 数据
+    data = Comment.to_collection_dict(recived_comments, page, per_page, 'api.get_user_recived_comments', id=id)
     # 标记哪些评论是新的
     last_read_time = user.last_recived_comments_read_time or datetime(1900, 1, 1)
     for item in data['items']:
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
-    # 需要考虑分页的问题，比如新评论有25条，默认分页是每页10条，
-    # 如果用户请求第一页时就更新 last_recived_comments_read_time，那么后15条就被认为不是新评论了，这是不对的
-    if data['_meta']['page'] * data['_meta']['per_page'] >= user.new_recived_comments():
-        # 更新 last_recived_comments_read_time 属性值
-        user.last_recived_comments_read_time = datetime.utcnow()
-        # 将新评论通知的计数归零
-        user.add_notification('unread_recived_comments_count', 0)
-    else:
-        # 用户剩余未查看的新评论数
-        n = user.new_recived_comments() - data['_meta']['page'] * data['_meta']['per_page']
-        # 将新评论通知的计数更新为未读数
-        user.add_notification('unread_recived_comments_count', n)
+    # 更新 last_recived_comments_read_time 属性值
+    user.last_recived_comments_read_time = datetime.utcnow()
+    # 将新评论通知的计数归零
+    user.add_notification('unread_recived_comments_count', 0)
     db.session.commit()
     return jsonify(data)
 
 
-@bp.route('/users/<int:id>/recived-likes/', methods=['GET'])
+@bp.route('/users/<int:id>/recived-comments-likes/', methods=['GET'])
 @token_auth.login_required
-def get_user_recived_likes(id):
-    '''返回该用户收到的赞和喜欢'''
+def get_user_recived_comments_likes(id):
+    '''返回该用户收到的评论赞'''
     user = User.query.get_or_404(id)
     if g.current_user != user:
         return error_response(403)
@@ -356,56 +406,88 @@ def get_user_recived_likes(id):
             'total_items': comments.total
         },
         '_links': {
-            'self': url_for('api.get_user_recived_likes', page=page, per_page=per_page, id=id),
-            'next': url_for('api.get_user_recived_likes', page=page + 1, per_page=per_page, id=id) if comments.has_next else None,
-            'prev': url_for('api.get_user_recived_likes', page=page - 1, per_page=per_page, id=id) if comments.has_prev else None
+            'self': url_for('api.get_user_recived_comments_likes', page=page, per_page=per_page, id=id),
+            'next': url_for('api.get_user_recived_comments_likes', page=page + 1, per_page=per_page, id=id) if comments.has_next else None,
+            'prev': url_for('api.get_user_recived_comments_likes', page=page - 1, per_page=per_page, id=id) if comments.has_prev else None
         }
     }
     for c in comments.items:
         # 重组数据，变成: (谁) (什么时间) 点赞了你的 (哪条评论)
         for u in c.likers:
-            data = {}
-            data['user'] = u.to_dict()
-            data['comment'] = c.to_dict()
-            # 获取点赞时间
-            res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
-            data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
-            # 标记本条点赞记录是否为新的
-            last_read_time = user.last_likes_read_time or datetime(1900, 1, 1)
-            if data['timestamp'] > last_read_time:
-                data['is_new'] = True
-            records['items'].append(data)
-    # 按 timestamp 排序一个字典列表(倒序，最新关注的人在最前面)
+            if u != user:  # 用户自己点赞自己的评论不需要被通知
+                data = {}
+                data['user'] = u.to_dict()
+                data['comment'] = c.to_dict()
+                # 获取点赞时间
+                res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
+                data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                # 标记本条点赞记录是否为新的
+                last_read_time = user.last_comments_likes_read_time or datetime(1900, 1, 1)
+                if data['timestamp'] > last_read_time:
+                    data['is_new'] = True
+                records['items'].append(data)
+    # 按 timestamp 排序一个字典列表(倒序，最新点赞的人在最前面)
     records['items'] = sorted(records['items'], key=itemgetter('timestamp'), reverse=True)
-    # 还需要考虑分页的问题，比如新点赞有25条，默认分页是每页10条，
-    # 如果用户请求第一页时就更新 last_likes_read_time，那么后15条就被认为不是新点赞了，这是不对的
-    if records['_meta']['page'] * records['_meta']['per_page'] >= user.new_likes():
-        # 更新 last_likes_read_time 属性值
-        user.last_likes_read_time = datetime.utcnow()
-        # 将新点赞通知的计数归零
-        user.add_notification('unread_likes_count', 0)
-    else:
-        # 用户剩余未查看的新点赞数
-        n = user.new_likes() - records['_meta']['page'] * records['_meta']['per_page']
-        # 将新点赞通知的计数更新为未读数
-        user.add_notification('unread_likes_count', n)
+    # 更新 last_comments_likes_read_time 属性值
+    user.last_comments_likes_read_time = datetime.utcnow()
+    # 将新点赞通知的计数归零
+    user.add_notification('unread_comments_likes_count', 0)
     db.session.commit()
     return jsonify(records)
 
 
-@bp.route('/users/<int:id>/notifications/', methods=['GET'])
+@bp.route('/users/<int:id>/recived-posts-likes/', methods=['GET'])
 @token_auth.login_required
-def get_user_notifications(id):
-    '''返回该用户的新通知'''
+def get_user_recived_posts_likes(id):
+    '''返回该用户收到的文章喜欢'''
     user = User.query.get_or_404(id)
     if g.current_user != user:
         return error_response(403)
-    # 只返回上次看到的通知以来发生的新通知
-    # 比如用户在 10:00:00 请求一次该API，在 10:00:10 再次请求该API只会返回 10:00:00 之后产生的新通知
-    since = request.args.get('since', 0.0, type=float)
-    notifications = user.notifications.filter(
-        Notification.timestamp > since).order_by(Notification.timestamp.asc())
-    return jsonify([n.to_dict() for n in notifications])
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    # 用户哪些文章被喜欢/收藏了，分页
+    posts = user.posts.join(posts_likes).paginate(page, per_page)
+    # 喜欢记录
+    records = {
+        'items': [],
+        '_meta': {
+            'page': page,
+            'per_page': per_page,
+            'total_pages': posts.pages,
+            'total_items': posts.total
+        },
+        '_links': {
+            'self': url_for('api.get_user_recived_posts_likes', page=page, per_page=per_page, id=id),
+            'next': url_for('api.get_user_recived_posts_likes', page=page + 1, per_page=per_page, id=id) if posts.has_next else None,
+            'prev': url_for('api.get_user_recived_posts_likes', page=page - 1, per_page=per_page, id=id) if posts.has_prev else None
+        }
+    }
+    for p in posts.items:
+        # 重组数据，变成: (谁) (什么时间) 喜欢了你的 (哪篇文章)
+        for u in p.likers:
+            if u != user:  # 用户自己喜欢自己的文章不需要被通知
+                data = {}
+                data['user'] = u.to_dict()
+                data['post'] = p.to_dict()
+                # 获取喜欢时间
+                res = db.engine.execute("select * from posts_likes where user_id={} and post_id={}".format(u.id, p.id))
+                data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                # 标记本条喜欢记录是否为新的
+                last_read_time = user.last_posts_likes_read_time or datetime(1900, 1, 1)
+                if data['timestamp'] > last_read_time:
+                    data['is_new'] = True
+                records['items'].append(data)
+    # 按 timestamp 排序一个字典列表(倒序，最新喜欢的人在最前面)
+    records['items'] = sorted(records['items'], key=itemgetter('timestamp'), reverse=True)
+    # 更新 last_posts_likes_read_time 属性值
+    user.last_posts_likes_read_time = datetime.utcnow()
+    # 将新喜欢通知的计数归零
+    user.add_notification('unread_posts_likes_count', 0)
+    db.session.commit()
+    return jsonify(records)
+
 
 @bp.route('/users/<int:id>/messages-recipients/', methods=['GET'])
 @token_auth.login_required
@@ -436,6 +518,7 @@ def get_user_messages_recipients(id):
             # 继续获取发给这个用户的私信有几条是新的
             item['new_count'] = user.messages_sent.filter_by(recipient_id=item['recipient']['id']).filter(Message.timestamp > last_read_time).count()
     return jsonify(data)
+
 
 @bp.route('/users/<int:id>/messages-senders/', methods=['GET'])
 @token_auth.login_required
@@ -472,6 +555,7 @@ def get_user_messages_senders(id):
     new_items = sorted(new_items, key=itemgetter('timestamp'))
     data['items'] = new_items + not_new_items
     return jsonify(data)
+
 
 @bp.route('/users/<int:id>/history-messages/', methods=['GET'])
 @token_auth.login_required
@@ -518,6 +602,10 @@ def get_user_history_messages(id):
     data['items'] = messages
     return jsonify(data)
 
+
+###
+# 拉黑 / 取消拉黑
+###
 @bp.route('/block/<int:id>', methods=['GET'])
 @token_auth.login_required
 def block(id):
@@ -534,6 +622,7 @@ def block(id):
         'message': 'You are now blocking %s.' % (user.name if user.name else user.username)
     })
 
+
 @bp.route('/unblock/<int:id>', methods=['GET'])
 @token_auth.login_required
 def unblock(id):
@@ -548,4 +637,163 @@ def unblock(id):
     return jsonify({
         'status': 'success',
         'message': 'You are not blocking %s anymore.' % (user.name if user.name else user.username)
+    })
+
+
+@bp.route('/resend-confirm', methods=['POST'])
+@token_auth.login_required
+def resend_confirmation():
+    '''重新发送确认账户的邮件'''
+    data = request.get_json()
+    if not data:
+        return bad_request('You must post JSON data.')
+    if 'confirm_email_base_url' not in data or not data.get('confirm_email_base_url').strip():
+        return bad_request('Please provide a valid confirm email base url.')
+
+    token = g.current_user.generate_confirm_jwt()
+
+    text_body = '''
+    Dear {},
+    Welcome to Madblog!
+    To confirm your account please click on the following link: {}
+    Sincerely,
+    The Madblog Team
+    Note: replies to this email address are not monitored.
+    '''.format(g.current_user.username, data.get('confirm_email_base_url') + token)
+
+    html_body = '''
+    <p>Dear {0},</p>
+    <p>Welcome to <b>Madblog</b>!</p>
+    <p>To confirm your account please <a href="{1}">click here</a>.</p>
+    <p>Alternatively, you can paste the following link in your browser's address bar:</p>
+    <p><b>{1}</b></p>
+    <p>Sincerely,</p>
+    <p>The Madblog Team</p>
+    <p><small>Note: replies to this email address are not monitored.</small></p>
+    '''.format(g.current_user.username, data.get('confirm_email_base_url') + token)
+
+    send_email('[Madblog] Confirm Your Account',
+               sender=current_app.config['MAIL_SENDER'],
+               recipients=[g.current_user.email],
+               text_body=text_body,
+               html_body=html_body)
+    return jsonify({
+        'status': 'success',
+        'message': 'A new confirmation email has been sent to you by email.'
+    })
+
+
+@bp.route('/confirm/<token>', methods=['GET'])
+@token_auth.login_required
+def confirm(token):
+    '''用户收到验证邮件后，验证其账户'''
+    if g.current_user.confirmed:
+        return bad_request('You have already confirmed your account.')
+    if g.current_user.verify_confirm_jwt(token):
+        g.current_user.ping()
+        db.session.commit()
+        # 给用户发放新 JWT，因为要包含 confirmed: true
+        token = g.current_user.get_jwt()
+        return jsonify({
+            'status': 'success',
+            'message': 'You have confirmed your account. Thanks!',
+            'token': token
+        })
+    else:
+        return bad_request('The confirmation link is invalid or has expired.')
+
+
+@bp.route('/reset-password-request', methods=['POST'])
+def reset_password_request():
+    '''请求重置账户密码，需要提供注册时填写的邮箱地址'''
+    data = request.get_json()
+    if not data:
+        return bad_request('You must post JSON data.')
+
+    message = {}
+    if 'confirm_email_base_url' not in data or not data.get('confirm_email_base_url').strip():
+        message['confirm_email_base_url'] = 'Please provide a valid confirm email base url.'
+    pattern = '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+    if 'email' not in data or not re.match(pattern, data.get('email', None)):
+        message['email'] = 'Please provide a valid email address.'
+    if message:
+        return bad_request(message)
+
+    user = User.query.filter_by(email=data.get('email')).first()
+    if user:  # 如果提供的邮箱地址对应的用户实例对象存在，就发邮件
+        token = user.generate_reset_password_jwt()
+
+        text_body = '''
+        Dear {0},
+        To reset your password click on the following link: {1}
+        If you have not requested a password reset simply ignore this message.
+        Sincerely,
+        The Madblog Team
+        Note: replies to this email address are not monitored.
+        '''.format(user.username, data.get('confirm_email_base_url') + token)
+
+        html_body = '''
+        <p>Dear {0},</p>
+        <p>To reset your password <a href="{1}">click here</a>.</p>
+        <p>Alternatively, you can paste the following link in your browser's address bar:</p>
+        <p><b>{1}</b></p>
+        <p>If you have not requested a password reset simply ignore this message.</p>
+        <p>Sincerely,</p>
+        <p>The Madblog Team</p>
+        <p><small>Note: replies to this email address are not monitored.</small></p>
+        '''.format(user.username, data.get('confirm_email_base_url') + token)
+
+        send_email('[Madblog] Reset Your Password',
+                   sender=current_app.config['MAIL_SENDER'],
+                   recipients=[user.email],
+                   text_body=text_body,
+                   html_body=html_body)
+    # 不管前端提供的邮箱地址有没有对应的用户实例(不排除有人想恶意重置别人的账户)，都给他回应
+    return jsonify({
+        'status': 'success',
+        'message': 'An email with instructions to reset your password has been sent to you.'
+    })
+
+
+@bp.route('/reset-password/<token>', methods=['POST'])
+def reset_password(token):
+    '''用户点击邮件中的链接，通过验证 JWT 来重置对应的账户的密码'''
+    data = request.get_json()
+    if not data:
+        return bad_request('You must post JSON data.')
+    if 'password' not in data or not data.get('password', None).strip():
+        return bad_request('Please provide a valid password.')
+    user = User.verify_reset_password_jwt(token)
+    if not user:
+        return bad_request('The reset password link is invalid or has expired.')
+    user.set_password(data.get('password'))
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'Your password has been reset.'
+    })
+
+
+@bp.route('/update-password', methods=['POST'])
+@token_auth.login_required
+def update_password():
+    '''已登录的用户更新自己的密码'''
+    data = request.get_json()
+    if not data:
+        return bad_request('You must post JSON data.')
+
+    if 'old_password' not in data or not data.get('old_password', None).strip():
+        return bad_request('Please provide a valid old password.')
+    if 'new_password' not in data or not data.get('new_password', None).strip():
+        return bad_request('Please provide a valid new password.')
+    if data.get('old_password') == data.get('new_password'):
+        return bad_request('The new password is equal to the old password.')
+    # 验证旧密码
+    if not g.current_user.check_password(data.get('old_password')):
+        return bad_request('The old password is wrong.')
+    g.current_user.set_password(data.get('new_password'))
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'Your password has been updated.'
     })

@@ -2,13 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70a00973-f3ae-4d3e-8d8c-565f8aefdb80" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/back-end/app/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/app/utils/email.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/Auth/ResetPassword.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/Auth/ResetPasswordRequest.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/Auth/Unconfirmed.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/Notifications/CommentsLikes.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/Notifications/PostsLikes.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/components/Resources/LikedPosts.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/api/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/api/message.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/api/comments.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/api/comments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/api/ping.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/api/ping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/api/posts.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/api/posts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/app/api/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/api/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/extensions.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/extensions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Notifications/Messages/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Notifications/Messages/List.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/Resources/CommentsResource.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Resources/CommentsResource.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Auth/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Auth/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Auth/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Base/Comment.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Base/Post.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Base/Post.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Notifications/Follows.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Notifications/Likes.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Notifications/Notifications.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Notifications/Notifications.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/PostDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/PostDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Profile/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Profile/User.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Resources/Resource.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Resources/Resource.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/Settings/Account.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/Settings/Account.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/router/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,41 +58,42 @@
     <session id="476328858">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="17" />
+          <entry key="project.closed" value="21" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.15" value="1" />
-          <entry key="project.open.time.24" value="3" />
+          <entry key="project.open.time.24" value="4" />
           <entry key="project.open.time.25" value="1" />
           <entry key="project.open.time.26" value="1" />
-          <entry key="project.open.time.30" value="1" />
+          <entry key="project.open.time.30" value="3" />
           <entry key="project.open.time.32" value="1" />
-          <entry key="project.open.time.33" value="1" />
+          <entry key="project.open.time.33" value="3" />
           <entry key="project.open.time.34" value="1" />
           <entry key="project.open.time.36" value="1" />
           <entry key="project.open.time.39" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.40" value="1" />
           <entry key="project.open.time.41" value="2" />
-          <entry key="project.opened" value="17" />
+          <entry key="project.open.time.62" value="1" />
+          <entry key="project.opened" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="11" />
-          <entry key="env" value="2" />
+          <entry key="env" value="3" />
           <entry key="gitignore" value="1" />
           <entry key="html" value="3" />
           <entry key="ini" value="2" />
-          <entry key="js" value="52" />
+          <entry key="js" value="55" />
           <entry key="json" value="2" />
           <entry key="png" value="1" />
-          <entry key="py" value="146" />
+          <entry key="py" value="181" />
           <entry key="sql" value="1" />
           <entry key="svg" value="1" />
           <entry key="tcl" value="1" />
           <entry key="ts" value="8" />
           <entry key="txt" value="1" />
-          <entry key="vue" value="157" />
+          <entry key="vue" value="190" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -78,9 +103,9 @@
           <entry key="Image" value="1" />
           <entry key="Ini" value="2" />
           <entry key="JSON" value="2" />
-          <entry key="JavaScript" value="52" />
-          <entry key="PLAIN_TEXT" value="162" />
-          <entry key="Python" value="146" />
+          <entry key="JavaScript" value="55" />
+          <entry key="PLAIN_TEXT" value="196" />
+          <entry key="Python" value="181" />
           <entry key="SVG" value="1" />
           <entry key="Scratch" value="1" />
           <entry key="TypeScript" value="8" />
@@ -89,16 +114,17 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="6" />
+          <entry key="env" value="64" />
           <entry key="js" value="47" />
-          <entry key="py" value="249" />
-          <entry key="vue" value="64" />
+          <entry key="py" value="455" />
+          <entry key="vue" value="138" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JavaScript" value="47" />
-          <entry key="PLAIN_TEXT" value="64" />
-          <entry key="Python" value="255" />
+          <entry key="PLAIN_TEXT" value="202" />
+          <entry key="Python" value="461" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -110,49 +136,107 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/back-end/app/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5128">
+              <caret line="353" column="30" selection-start-line="353" selection-start-column="30" selection-end-line="353" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/back-end/app/utils/email.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="8" column="21" lean-forward="true" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/back-end/app/api/users.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="461" column="38" selection-start-line="461" selection-start-column="38" selection-end-line="461" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/back-end/app/api/message.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="25" column="17" lean-forward="true" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Messages/List.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="175" column="9" selection-start-line="175" selection-start-column="9" selection-end-line="175" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/front-end/src/components/Resources/CommentsResource.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="211" column="9" selection-start-line="211" selection-start-column="9" selection-end-line="211" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/front-end/src/http.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+            <state relative-caret-position="266">
+              <caret line="59" column="24" lean-forward="true" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
               <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/back-end/app/extensions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+              <folding>
+                <element signature="e#97#124#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/back-end/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="24" column="26" lean-forward="true" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/ResetPasswordRequest.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="579">
+              <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/Unconfirmed.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="489">
+              <caret line="101" column="9" selection-start-line="101" selection-start-column="9" selection-end-line="101" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/front-end/src/components/Settings/Account.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="489">
+              <caret line="76" column="9" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/front-end/src/router/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="241">
+              <caret line="253" column="21" lean-forward="true" selection-start-line="253" selection-start-column="21" selection-end-line="253" selection-end-column="21" />
+              <folding>
+                <element signature="e#199#248#0" expanded="true" />
+                <element signature="e#493#537#0" expanded="true" />
+                <element signature="e#758#811#0" expanded="true" />
+                <element signature="e#1034#1088#0" expanded="true" />
+                <element signature="e#1459#1527#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -174,22 +258,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/back-end/app/api/auth.py" />
-        <option value="$PROJECT_DIR$/back-end/migrations/versions/ac2a5de06e1d_.py" />
-        <option value="$PROJECT_DIR$/back-end/tests/__init__.py" />
-        <option value="$PROJECT_DIR$/back-end/tests/test_basic.py" />
-        <option value="$PROJECT_DIR$/back-end/tests/test_user_model.py" />
-        <option value="$PROJECT_DIR$/back-end/tests/test_api.py" />
-        <option value="$PROJECT_DIR$/back-end/app/extensions.py" />
-        <option value="$PROJECT_DIR$/front-end/src/components/User/Auth/Login.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/User/Auth/Register.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Base/Comment.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Home.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Ping.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Auth/Login.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Auth/Register.vue" />
-        <option value="$PROJECT_DIR$/back-end/config.py" />
-        <option value="$PROJECT_DIR$/front-end/src/main.js" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/FollowingPosts.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/RecivedMessages.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Profile/Followers.vue" />
@@ -198,33 +266,49 @@
         <option value="$PROJECT_DIR$/front-end/src/store.js" />
         <option value="$PROJECT_DIR$/back-end/madblog.py" />
         <option value="$PROJECT_DIR$/back-end/app/api/notifications.py" />
-        <option value="$PROJECT_DIR$/back-end/app/api/posts.py" />
-        <option value="$PROJECT_DIR$/back-end/app/api/comments.py" />
         <option value="$PROJECT_DIR$/back-end/app/api/__init__.py" />
         <option value="$PROJECT_DIR$/front-end/src/components/Base/Member.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Base/Pagination.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Base/Post.vue" />
         <option value="$PROJECT_DIR$/front-end/src/assets/custom.css" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/Messages/History.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/Messages/Index.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/Likes.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Notifications/Notifications.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/RecivedComments.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Profile/User.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/Resources/Resource.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Resources/Messages/History.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Resources/Messages/Index.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Resources/Messages/List.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Settings/Settings.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/components/PostDetail.vue" />
-        <option value="$PROJECT_DIR$/front-end/src/router/index.js" />
-        <option value="$PROJECT_DIR$/back-end/app/models.py" />
         <option value="$PROJECT_DIR$/front-end/src/components/Notifications/Messages/List.vue" />
         <option value="$PROJECT_DIR$/front-end/src/components/Resources/CommentsResource.vue" />
         <option value="$PROJECT_DIR$/front-end/src/http.js" />
-        <option value="$PROJECT_DIR$/back-end/app/api/users.py" />
         <option value="$PROJECT_DIR$/back-end/app/api/message.py" />
+        <option value="$PROJECT_DIR$/back-end/app/api/posts.py" />
+        <option value="$PROJECT_DIR$/back-end/app/api/comments.py" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Notifications/CommentsLikes.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Notifications/Notifications.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Notifications/PostsLikes.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Resources/LikedPosts.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/PostDetail.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Resources/Resource.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Base/Post.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Profile/User.vue" />
+        <option value="$PROJECT_DIR$/back-end/.env" />
+        <option value="$PROJECT_DIR$/back-end/utils/email.py" />
+        <option value="$PROJECT_DIR$/back-end/app/__init__.py" />
+        <option value="$PROJECT_DIR$/back-end/app/api/ping.py" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Auth/Login.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Auth/Register.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Auth/ResetPassword.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Auth/ResetPasswordRequest.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Auth/Unconfirmed.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Settings/Account.vue" />
+        <option value="$PROJECT_DIR$/front-end/src/router/index.js" />
+        <option value="$PROJECT_DIR$/back-end/app/utils/email.py" />
+        <option value="$PROJECT_DIR$/back-end/app/extensions.py" />
+        <option value="$PROJECT_DIR$/back-end/config.py" />
+        <option value="$PROJECT_DIR$/back-end/app/models.py" />
+        <option value="$PROJECT_DIR$/back-end/app/api/users.py" />
+        <option value="$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue" />
       </list>
     </option>
   </component>
@@ -234,10 +318,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="897" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="903" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -247,7 +331,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -276,6 +359,13 @@
             <path>
               <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
               <item name="Myfirst-Flask" type="462c0819:PsiDirectoryNode" />
+              <item name="back-end" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Myfirst-Flask" type="462c0819:PsiDirectoryNode" />
               <item name="front-end" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -290,6 +380,22 @@
               <item name="front-end" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Myfirst-Flask" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Auth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Myfirst-Flask" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Base" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
@@ -305,8 +411,7 @@
               <item name="front-end" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Notifications" type="462c0819:PsiDirectoryNode" />
-              <item name="Messages" type="462c0819:PsiDirectoryNode" />
+              <item name="Profile" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
@@ -321,12 +426,21 @@
               <item name="Myfirst-Flask" type="462c0819:PsiDirectoryNode" />
               <item name="front-end" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Settings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Myfirst-Flask" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Myfirst-Flask" type="462c0819:PsiDirectoryNode" />
+              <item name="front-end" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="router" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -338,19 +452,19 @@
     <property name="ts.external.directory.path" value="F:\PyCharm 2018.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\Myfirst-Flask\front-end\src\components\Notifications" />
-      <recent name="F:\Myfirst-Flask\front-end\src\components" />
-      <recent name="F:\Myfirst-Flask\front-end\src\components\Auth" />
-      <recent name="F:\Myfirst-Flask\front-end\src\components\User" />
-      <recent name="F:\Myfirst-Flask\front-end\src\components\User\Settings" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Myfirst-Flask\front-end\src" />
       <recent name="F:\Myfirst-Flask\front-end\src\components" />
       <recent name="F:\Myfirst-Flask\front-end\src\components\Notifications" />
       <recent name="F:\Myfirst-Flask\back-end\migrations\versions" />
       <recent name="F:\Myfirst-Flask\front-end\src\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Myfirst-Flask\back-end\app" />
+      <recent name="F:\Myfirst-Flask\front-end\src\components\Notifications" />
+      <recent name="F:\Myfirst-Flask\front-end\src\components" />
+      <recent name="F:\Myfirst-Flask\front-end\src\components\Auth" />
+      <recent name="F:\Myfirst-Flask\front-end\src\components\User" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -379,10 +493,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="719" y="0" width="784" height="832" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.37327823" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19839142" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -406,7 +520,7 @@
       <window_info anchor="right" id="Database" order="4" weight="0.3264177" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.41908714" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13001384" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -437,266 +551,11 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Settings/Email.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Ping.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/assets/core.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/App.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/Login.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="97" column="9" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/Register.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="104" column="9" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Home.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3724">
-          <caret line="316" column="22" lean-forward="true" selection-start-line="316" selection-start-column="22" selection-end-line="316" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Settings/Account.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1463">
-          <caret line="77" column="2" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/migrations/versions/25a79e570369_which_recived_comments_are_new.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/migrations/versions/1e179ce09b5b_add_followers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="15" column="17" lean-forward="true" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/migrations/versions/7b42f5b5f7e5_add_comments_table.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://D:/anaconda/Lib/site-packages/flask/helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="193" column="4" selection-start-line="193" selection-start-column="4" selection-end-line="193" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/extensions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/FollowingPosts.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="106" column="9" selection-start-line="106" selection-start-column="9" selection-end-line="106" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/Followers.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="139" column="9" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/Following.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="137" column="9" selection-start-line="137" selection-start-column="9" selection-end-line="137" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/Posts.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="262" column="9" selection-start-line="262" selection-start-column="9" selection-end-line="262" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/madblog.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="893">
-          <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/api/comments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1766">
-          <caret line="110" column="18" selection-start-line="110" selection-start-column="18" selection-end-line="110" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/api/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="87" selection-start-line="5" selection-start-column="87" selection-end-line="5" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Member.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="40" column="9" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="134" column="9" selection-start-line="134" selection-start-column="9" selection-end-line="134" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Pagination.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="79" column="14" selection-start-line="79" selection-start-column="14" selection-end-line="79" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/assets/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="1921" column="1" selection-start-line="1921" selection-start-column="1" selection-end-line="1921" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Post.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="77" column="9" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Messages/History.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="268" column="9" selection-start-line="268" selection-start-column="9" selection-end-line="268" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Messages/Index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Likes.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="146" column="9" selection-start-line="146" selection-start-column="9" selection-end-line="146" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Notifications.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="163" column="9" selection-start-line="163" selection-start-column="9" selection-end-line="163" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/RecivedMessages.vue" />
     <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/RecivedComments.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="512">
           <caret line="342" column="9" selection-start-line="342" selection-start-column="9" selection-end-line="342" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/User.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5529">
-          <caret line="291" column="9" selection-start-line="291" selection-start-column="9" selection-end-line="291" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/PostDetail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15504">
-          <caret line="816" column="9" selection-start-line="816" selection-start-column="9" selection-end-line="816" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/components/Resources/Resource.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1824">
-          <caret line="96" column="9" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/front-end/src/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4313">
-          <caret line="227" column="21" selection-start-line="227" selection-start-column="21" selection-end-line="227" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/api/posts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2375">
-          <caret line="130" column="34" selection-start-line="130" selection-start-column="34" selection-end-line="130" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/api/notifications.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/api/auth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -728,23 +587,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="288" column="9" selection-start-line="288" selection-start-column="9" selection-end-line="288" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Messages/List.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
+        <state relative-caret-position="3325">
           <caret line="175" column="9" selection-start-line="175" selection-start-column="9" selection-end-line="175" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/front-end/src/components/Resources/CommentsResource.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
+        <state relative-caret-position="4009">
           <caret line="211" column="9" selection-start-line="211" selection-start-column="9" selection-end-line="211" selection-end-column="9" />
         </state>
       </provider>
@@ -752,24 +604,295 @@
     <entry file="file://$PROJECT_DIR$/front-end/src/http.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
-          <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back-end/app/api/users.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="461" column="38" selection-start-line="461" selection-start-column="38" selection-end-line="461" selection-end-column="38" />
+          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/back-end/app/api/message.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="25" column="17" lean-forward="true" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Notifications.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="174" column="9" selection-start-line="174" selection-start-column="9" selection-end-line="174" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/PostsLikes.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="135" column="9" selection-start-line="135" selection-start-column="9" selection-end-line="135" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/CommentsLikes.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="146" column="9" selection-start-line="146" selection-start-column="9" selection-end-line="146" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Notifications/Likes.vue" />
+    <entry file="file://D:/anaconda/Lib/site-packages/openpyxl/comments/comments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/anaconda/pkgs/openpyxl-2.4.8-py36hf3b77f6_1/Lib/site-packages/openpyxl/comments/comments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-511">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Resources/LikedPosts.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3078">
+          <caret line="162" column="9" selection-start-line="162" selection-start-column="9" selection-end-line="162" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Resources/Resource.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="102" column="9" selection-start-line="102" selection-start-column="9" selection-end-line="102" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/comments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/errors.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/notifications.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/posts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-245">
+          <caret line="146" selection-start-line="146" selection-end-line="146" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/tokens.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/madblog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Post.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1558">
+          <caret line="82" column="9" selection-start-line="82" selection-start-column="9" selection-end-line="82" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/Overview.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/Following.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2603">
+          <caret line="137" column="9" selection-start-line="137" selection-start-column="9" selection-end-line="137" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/User.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="51" column="176" selection-start-line="51" selection-start-column="176" selection-end-line="51" selection-end-column="176" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Profile/Followers.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2641">
+          <caret line="139" column="9" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/PostDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16340">
+          <caret line="860" column="4" selection-start-line="860" selection-start-column="4" selection-end-line="860" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Member.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="64" selection-start-line="4" selection-start-column="64" selection-end-line="4" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Alert.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/utils/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/auth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-191" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="87" selection-start-line="5" selection-start-column="87" selection-end-line="5" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/ping.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/Login.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="97" column="9" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/Register.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="105" column="9" selection-start-line="105" selection-start-column="9" selection-end-line="105" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/ResetPassword.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="62" column="9" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/ResetPasswordRequest.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Auth/Unconfirmed.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="101" column="9" selection-start-line="101" selection-start-column="9" selection-end-line="101" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Settings/Account.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="76" column="9" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="253" column="21" lean-forward="true" selection-start-line="253" selection-start-column="21" selection-end-line="253" selection-end-column="21" />
+          <folding>
+            <element signature="e#199#248#0" expanded="true" />
+            <element signature="e#493#537#0" expanded="true" />
+            <element signature="e#758#811#0" expanded="true" />
+            <element signature="e#1034#1088#0" expanded="true" />
+            <element signature="e#1459#1527#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/extensions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding>
+            <element signature="e#97#124#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="24" column="26" lean-forward="true" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5128">
+          <caret line="353" column="30" selection-start-line="353" selection-start-column="30" selection-end-line="353" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/utils/email.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="21" lean-forward="true" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back-end/app/api/users.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="59" column="24" lean-forward="true" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/front-end/src/components/Base/Navbar.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
         </state>
       </provider>
     </entry>

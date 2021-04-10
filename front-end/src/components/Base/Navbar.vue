@@ -5,9 +5,9 @@
       <div class="navbar-brand">
       <router-link to="/" class="g-text-underline--none--hover">
         <img src="../../assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-          Design by
+          Mars Blog
       </router-link>
-      <a href="http://www.madmalls.com" class="g-text-underline--none--hover">Madman</a>
+
       </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -83,7 +83,8 @@ export default {
       let unread_recived_comments_count = 0  // 收到的新评论通知计数
       let unread_messages_count = 0  // 收到的新私信通知计数
       let unread_follows_count = 0  // 新粉丝通知计数
-      let unread_likes_count = 0  // 新的喜欢或赞的通知计数
+      let unread_posts_likes_count = 0  // 新收藏文章的通知计数
+      let unread_comments_likes_count = 0  // 新的评论点赞的通知计数
       let unread_followeds_posts_count = 0  // 用户关注的人的新文章通知计数
 
       setInterval(function() {
@@ -109,8 +110,12 @@ export default {
                     unread_follows_count = response.data[i].payload
                     break
 
-                  case 'unread_likes_count':
-                    unread_likes_count = response.data[i].payload
+                  case 'unread_posts_likes_count':
+                    unread_posts_likes_count = response.data[i].payload
+                    break
+
+                  case 'unread_comments_likes_count':
+                    unread_comments_likes_count = response.data[i].payload
                     break
                   case 'unread_followeds_posts_count':
                     unread_followeds_posts_count = response.data[i].payload
@@ -118,7 +123,7 @@ export default {
                 }
                 since = response.data[i].timestamp
               }
-              total_notifications_count = unread_recived_comments_count + unread_messages_count + unread_follows_count + unread_likes_count + unread_followeds_posts_count
+              total_notifications_count = unread_recived_comments_count + unread_messages_count + unread_follows_count + unread_posts_likes_count + unread_comments_likes_count + unread_followeds_posts_count
               // 每一次请求之后，根据 total_notifications_count 的值来显示或隐藏徽标
               $('#new_notifications_count').text(total_notifications_count)
               $('#new_notifications_count').css('visibility', total_notifications_count ? 'visible' : 'hidden');

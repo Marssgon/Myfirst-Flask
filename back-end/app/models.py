@@ -59,6 +59,15 @@ blacklist = db.Table(
     db.Column('timestamp', db.DateTime, default=datetime.utcnow)
 )
 
+# 喜欢文章
+posts_likes = db.Table(
+    'posts_likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
+    db.Column('timestamp', db.DateTime, default=datetime.utcnow)
+)
+
+
 class User(PaginatedAPIMixin, db.Model):
     # 设置数据库表名，Post模型中的外键 user_id 会引用 users.id
     __tablename__ = 'users'
@@ -89,8 +98,10 @@ class User(PaginatedAPIMixin, db.Model):
     last_recived_comments_read_time = db.Column(db.DateTime)
     # 用户最后一次查看 用户的粉丝 页面的时间，用来判断哪些粉丝是新的
     last_follows_read_time = db.Column(db.DateTime)
-    # 用户最后一次查看 收到的点赞 页面的时间，用来判断哪些点赞是新的
-    last_likes_read_time = db.Column(db.DateTime)
+    # 用户最后一次查看 收到的文章被喜欢 页面的时间，用来判断哪些喜欢是新的
+    last_posts_likes_read_time = db.Column(db.DateTime)
+    # 用户最后一次查看 收到的评论点赞 页面的时间，用来判断哪些点赞是新的
+    last_comments_likes_read_time = db.Column(db.DateTime)
     # 用户最后一次查看 关注的人的博客 页面的时间，用来判断哪些文章是新的
     last_followeds_posts_read_time = db.Column(db.DateTime)
     # 用户的通知
@@ -107,7 +118,6 @@ class User(PaginatedAPIMixin, db.Model):
                                         cascade='all, delete-orphan')
     # 用户最后一次查看私信的时间
     last_messages_read_time = db.Column(db.DateTime)
-
     # harassers 骚扰者(被拉黑的人)
     # sufferers 受害者
     harassers = db.relationship(
@@ -115,14 +125,18 @@ class User(PaginatedAPIMixin, db.Model):
         primaryjoin=(blacklist.c.user_id == id),
         secondaryjoin=(blacklist.c.block_id == id),
         backref=db.backref('sufferers', lazy='dynamic'), lazy='dynamic')
+    # 用户注册后，需要先确认邮箱
+    confirmed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
     def set_password(self, password):
+        '''设置用户密码，保存为 Hash 值'''
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        '''验证密码与保存的 Hash 值是否匹配'''
         return check_password_hash(self.password_hash, password)
 
     def avatar(self, size):
@@ -144,6 +158,7 @@ class User(PaginatedAPIMixin, db.Model):
             'posts_count': self.posts.count(),
             'followeds_posts_count': self.followeds_posts().count(),
             'comments_count': self.comments.count(),
+            'confirmed': self.confirmed,
             '_links': {
                 'self': url_for('api.get_user', id=self.id),
                 'avatar': self.avatar(128),
@@ -166,13 +181,16 @@ class User(PaginatedAPIMixin, db.Model):
             self.set_password(data['password'])
 
     def ping(self):
+        '''更新用户的最后访问时间'''
         self.last_seen = datetime.utcnow()
         db.session.add(self)
 
     def get_jwt(self, expires_in=3600):
+        '''用户登录后，发放有效的 JWT'''
         now = datetime.utcnow()
         payload = {
             'user_id': self.id,
+            'confirmed': self.confirmed,
             'user_name': self.name if self.name else self.username,
             'user_avatar': base64.b64encode(self.avatar(24).
                                             encode('utf-8')).decode('utf-8'),
@@ -186,6 +204,7 @@ class User(PaginatedAPIMixin, db.Model):
 
     @staticmethod
     def verify_jwt(token):
+        '''验证 JWT 的有效性'''
         try:
             payload = jwt.decode(
                 token,
@@ -234,10 +253,10 @@ class User(PaginatedAPIMixin, db.Model):
 
     def new_recived_comments(self):
         '''用户收到的新评论计数
-                包括:
-                1. 用户的所有文章下面新增的评论
-                2. 用户发表的评论(或下面的子孙)被人回复了
-                '''
+        包括:
+        1. 用户的所有文章下面新增的评论
+        2. 用户发表的评论(或下面的子孙)被人回复了
+        '''
         last_read_time = self.last_recived_comments_read_time or datetime(1900, 1, 1)
         # 用户发布的所有文章
         user_posts_ids = [post.id for post in self.posts.all()]
@@ -259,9 +278,9 @@ class User(PaginatedAPIMixin, db.Model):
         last_read_time = self.last_follows_read_time or datetime(1900, 1, 1)
         return self.followers.filter(followers.c.timestamp > last_read_time).count()
 
-    def new_likes(self):
-        '''用户收到的新点赞计数'''
-        last_read_time = self.last_likes_read_time or datetime(1900, 1, 1)
+    def new_comments_likes(self):
+        '''用户收到的新评论点赞计数'''
+        last_read_time = self.last_comments_likes_read_time or datetime(1900, 1, 1)
         # 当前用户发表的所有评论当中，哪些被点赞了
         comments = self.comments.join(comments_likes).all()
         # 新的点赞记录计数
@@ -269,11 +288,12 @@ class User(PaginatedAPIMixin, db.Model):
         for c in comments:
             # 获取点赞时间
             for u in c.likers:
-                res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
-                timestamp = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
-                # 判断本条点赞记录是否为新的
-                if timestamp > last_read_time:
-                    new_likes_count += 1
+                if u != self:  # 用户自己点赞自己的评论不需要被通知
+                    res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
+                    timestamp = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                    # 判断本条点赞记录是否为新的
+                    if timestamp > last_read_time:
+                        new_likes_count += 1
         return new_likes_count
 
     def new_followeds_posts(self):
@@ -286,7 +306,7 @@ class User(PaginatedAPIMixin, db.Model):
         last_read_time = self.last_messages_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
-    ##黑名单
+
     def is_blocking(self, user):
         '''判断当前用户是否已经拉黑了 user 这个用户对象，如果拉黑了，下面表达式左边是1，否则是0'''
         return self.harassers.filter(
@@ -302,6 +322,85 @@ class User(PaginatedAPIMixin, db.Model):
         if self.is_blocking(user):
             self.harassers.remove(user)
 
+    def new_posts_likes(self):
+        '''用户收到的文章被喜欢的新计数'''
+        last_read_time = self.last_posts_likes_read_time or datetime(1900, 1, 1)
+        # 当前用户发布的文章当中，哪些文章被喜欢了
+        posts = self.posts.join(posts_likes).all()
+        # 新的喜欢记录计数
+        new_likes_count = 0
+        for p in posts:
+            # 获取喜欢时间
+            for u in p.likers:
+                if u != self:  # 用户自己喜欢自己的文章不需要被通知
+                    res = db.engine.execute("select * from posts_likes where user_id={} and post_id={}".format(u.id, p.id))
+                    timestamp = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                    # 判断本条喜欢记录是否为新的
+                    if timestamp > last_read_time:
+                        new_likes_count += 1
+        return new_likes_count
+
+    def generate_confirm_jwt(self, expires_in=3600):
+        '''生成确认账户的 JWT'''
+        now = datetime.utcnow()
+        payload = {
+            'confirm': self.id,
+            'exp': now + timedelta(seconds=expires_in),
+            'iat': now
+        }
+        return jwt.encode(
+            payload,
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256')
+
+    def verify_confirm_jwt(self, token):
+        '''用户点击确认邮件中的URL后，需要检验 JWT，如果检验通过，则把新添加的 confirmed 属性设为 True'''
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'])
+        except (jwt.exceptions.ExpiredSignatureError,
+                jwt.exceptions.InvalidSignatureError,
+                jwt.exceptions.DecodeError) as e:
+            # Token过期，或被人修改，那么签名验证也会失败
+            return False
+        if payload.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
+
+    def generate_reset_password_jwt(self, expires_in=3600):
+        '''生成重置账户密码的 JWT'''
+        now = datetime.utcnow()
+        payload = {
+            'reset_password': self.id,
+            'exp': now + timedelta(seconds=expires_in),
+            'iat': now
+        }
+        return jwt.encode(
+            payload,
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256')
+
+    @staticmethod
+    def verify_reset_password_jwt(token):
+        '''用户点击重置密码邮件中的URL后，需要检验 JWT
+        如果检验通过，则返回 JWT 中存储的 id 所对应的用户实例'''
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'])
+        except (jwt.exceptions.ExpiredSignatureError,
+                jwt.exceptions.InvalidSignatureError,
+                jwt.exceptions.DecodeError) as e:
+            # Token过期，或被人修改，那么签名验证也会失败
+            return None
+        return User.query.get(payload.get('reset_password'))
+
+
 class Post(PaginatedAPIMixin, db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -315,6 +414,8 @@ class Post(PaginatedAPIMixin, db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic',
                                cascade='all, delete-orphan')
+    # 博客文章与喜欢/收藏它的人是多对多关系
+    likers = db.relationship('User', secondary=posts_likes, backref=db.backref('liked_posts', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
@@ -336,12 +437,22 @@ class Post(PaginatedAPIMixin, db.Model):
             'body': self.body,
             'timestamp': self.timestamp,
             'views': self.views,
+            'likers_id': [user.id for user in self.likers],
+            'likers': [
+                {
+                    'id': user.id,
+                    'username': user.username,
+                    'name': user.name,
+                    'avatar': user.avatar(128)
+                } for user in self.likers
+            ],
             'author': {
                 'id': self.author.id,
                 'username': self.author.username,
                 'name': self.author.name,
                 'avatar': self.author.avatar(128)
             },
+            'likers_count': self.likers.count(),
             'comments_count': self.comments.count(),
             '_links': {
                 'self': url_for('api.get_post', id=self.id),
@@ -356,6 +467,20 @@ class Post(PaginatedAPIMixin, db.Model):
             if field in data:
                 setattr(self, field, data[field])
 
+    def is_liked_by(self, user):
+        '''判断用户 user 是否已经收藏过该文章'''
+        return user in self.likers
+
+    def liked_by(self, user):
+        '''收藏'''
+        if not self.is_liked_by(user):
+            self.likers.append(user)
+
+    def unliked_by(self, user):
+        '''取消收藏'''
+        if self.is_liked_by(user):
+            self.likers.remove(user)
+
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)  # body 字段有变化时，执行 on_changed_body() 方法
 
@@ -368,7 +493,7 @@ class Comment(PaginatedAPIMixin, db.Model):
     mark_read = db.Column(db.Boolean, default=False)  # 文章作者会收到评论提醒，可以标为已读
     disabled = db.Column(db.Boolean, default=False)  # 屏蔽显示
     # 评论与对它点赞的人是多对多关系
-    likers = db.relationship('User', secondary=comments_likes, backref=db.backref('liked_comments', lazy='dynamic'))
+    likers = db.relationship('User', secondary=comments_likes, backref=db.backref('liked_comments', lazy='dynamic'), lazy='dynamic')
     # 外键，评论作者的 id
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # 外键，评论所属文章的 id
@@ -382,7 +507,7 @@ class Comment(PaginatedAPIMixin, db.Model):
         return '<Comment {}>'.format(self.id)
 
     def get_descendants(self):
-        '''获取一级评论的所有子孙'''
+        '''获取评论的所有子孙'''
         data = set()
 
         def descendants(comment):
@@ -391,6 +516,17 @@ class Comment(PaginatedAPIMixin, db.Model):
                 for child in comment.children:
                     descendants(child)
         descendants(self)
+        return data
+
+    def get_ancestors(self):
+        '''获取评论的所有祖先'''
+        data = []
+
+        def ancestors(comment):
+            if comment.parent:
+                data.append(comment.parent)
+                ancestors(comment.parent)
+        ancestors(self)
         return data
 
     def to_dict(self):
@@ -481,6 +617,7 @@ class Notification(db.Model):  # 不需要分页
         for field in ['body', 'timestamp']:
             if field in data:
                 setattr(self, field, data[field])
+
 
 class Message(PaginatedAPIMixin, db.Model):
     __tablename__ = 'messages'
